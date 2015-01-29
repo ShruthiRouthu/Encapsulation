@@ -12,25 +12,63 @@ import java.util.Date;
  * @version     1.01
  */
 public class Employee {
-    String firstName;
-    String lastName;
-    public String ssn;
-    public Date birthDate;
-    boolean metWithHr;
-    boolean metDeptStaff;
-    boolean reviewedDeptPolicies;
-    boolean movedIn;
-    String cubeId;
-    Date currentDate;
+    private String firstName;
+    private String lastName;
+    private String ssn;
+    private Date birthDate;
+    private boolean metWithHr;
+    private boolean metDeptStaff;
+    private boolean reviewedDeptPolicies;
+    private boolean movedIn;
+    private String cubeId;
+    private String fmtDate;
+    
 
-    public Employee() {
-        currentDate = new Date();
+    //No arg constructor
+     public Employee()
+     {
+         setFmtDate(); 
+     }
+     
+    //Constructor
+    public Employee(String firstName, String lastName,String ssn )
+    {
+        //calling  setters
+        setFirstName(firstName);
+        setLastName(lastName);
+        setSsn(ssn);
+        setFmtDate(); 
     }
+
+    public void setFirstName(String firstName) {
+        if(firstName.length() > 0)
+            {this.firstName = firstName;}
+    }
+
+    public void setLastName(String lastName) {
+        if(lastName.length() > 0)
+             {this.lastName = lastName;} 
+    }
+
+    public void setSsn(String ssn) {
+        if(ssn.length() == 9)
+            {this.ssn = ssn;}
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setFmtDate() {
+        Date currentDate =  new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+        this.fmtDate = sdf.format(currentDate);
+    }
+    
+    
 
     // Assume this must be performed first
     public void meetWithHrForBenefitAndSalryInfo() {
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(currentDate);
         System.out.println("Met with Hr on " + fmtDate);
         metWithHr = true;
     }
@@ -38,8 +76,6 @@ public class Employee {
     // Assume this is must be performed second
     public void meetDepartmentStaff() {
         if(metWithHr) {
-            SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-            String fmtDate = sdf.format(currentDate);
             System.out.println("Met with Dept. Staff on " + fmtDate);
             metDeptStaff = true;
         } else {
@@ -51,8 +87,6 @@ public class Employee {
     // Assume this must be performed third
     public void reviewDeptPolicies() {
         if(metWithHr && metDeptStaff) {
-            SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-            String fmtDate = sdf.format(currentDate);
             System.out.println("Reviewed Dept. Policies on " + fmtDate);
             reviewedDeptPolicies = true;
         } else {
@@ -65,8 +99,6 @@ public class Employee {
     // Assume this must be performed 4th
     public void moveIntoCubicle(String cubeId) {
         if(metWithHr && metDeptStaff && reviewedDeptPolicies) {
-            SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-            String fmtDate = sdf.format(currentDate);
             System.out.println("Moved into cube on " + fmtDate);
             this.cubeId = cubeId;
             this.movedIn = true;
@@ -80,9 +112,6 @@ public class Employee {
     }
 
     public String getStatus() {
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        String fmtDate = sdf.format(currentDate);
-
         if(metWithHr && metDeptStaff
            && reviewedDeptPolicies && movedIn) {
             return "Orientation is completed on: " + fmtDate;
